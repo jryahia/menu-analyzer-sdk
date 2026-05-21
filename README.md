@@ -45,8 +45,8 @@ print(result.dishes[0].ar.dish_name)   # "سمك السلمون المشوي"
 pip install menu-analyzer
 
 # Development install from source
-git clone https://github.com/yourorg/menu-analyzer
-cd menu-analyzer
+git clone https://github.com/jryahia/menu-analyzer-sdk
+cd menu-analyzer-sdk
 pip install -e ".[dev]"
 ```
 

@@ -1,4 +1,22 @@
-# 🍽️ Menu Analyzer SDK 🤖🌍
+# Menu Analyzer SDK
+
+**Python SDK: one restaurant menu photo in, validated JSON out, with ingredients, allergens, dietary flags and nutrition estimates for every dish, in up to 64 languages.**
+
+![Python](https://img.shields.io/badge/Python-161b22?style=for-the-badge&labelColor=161b22&color=161b22) ![OpenAI GPT-4 Vision](https://img.shields.io/badge/OpenAI%20GPT--4%20Vision-161b22?style=for-the-badge&labelColor=161b22&color=161b22) ![Pydantic v2](https://img.shields.io/badge/Pydantic%20v2-161b22?style=for-the-badge&labelColor=161b22&color=161b22) ![asyncio](https://img.shields.io/badge/asyncio-161b22?style=for-the-badge&labelColor=161b22&color=161b22)
+
+```mermaid
+flowchart LR
+    S0["Menu photo (URL / file / bytes)"]
+    S1["GPT-4 Vision call"]
+    S2["Pydantic validation"]
+    S3["Typed dish models"]
+    S4["JSON in 64 languages"]
+    S0 --> S1 --> S2 --> S3 --> S4
+```
+
+## Problem it solves
+
+Menus are images, but apps need structured data on allergens, diets and translations. This SDK turns a single photo into typed Pydantic models with one vision call.
 
 > **One image in → structured menu data in 64 languages out.**
 
@@ -6,18 +24,18 @@ Send a restaurant menu photo to GPT-4 Vision and receive a rich, validated JSON 
 
 ---
 
-## ✨ Features
+## Features
 
-- 📸 **Universal image input** — URL, base64, file path, or raw bytes
-- 🌍 **64 languages at once** — one GPT-4 Vision call, zero per-language overhead
-- 🥗 **Structured dish data** — ingredients, dietary flags, allergens, nutrition, spice level, wine pairings
-- ✅ **Pydantic v2 validation** — fully typed, IDE-friendly output
-- ⚡ **Sync & async** — `analyze_sync()` for scripts, `await analyze()` for async apps
-- 💰 **~$0.05–0.15 per scan** using your own OpenAI API key
+- **Universal image input** — URL, base64, file path, or raw bytes
+- **64 languages at once** — one GPT-4 Vision call, zero per-language overhead
+- **Structured dish data** — ingredients, dietary flags, allergens, nutrition, spice level, wine pairings
+- Yes **Pydantic v2 validation** — fully typed, IDE-friendly output
+- **Sync & async** — `analyze_sync()` for scripts, `await analyze()` for async apps
+- **~$0.05–0.15 per scan** using your own OpenAI API key
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 pip install menu-analyzer
@@ -38,7 +56,7 @@ print(result.dishes[0].ar.dish_name)   # "سمك السلمون المشوي"
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 # From PyPI
@@ -59,7 +77,7 @@ cp .env.example .env
 
 ---
 
-## 💡 Full Example
+## Full Example
 
 ```python
 from menu_analyzer import MenuAnalyzer
@@ -74,11 +92,11 @@ print(f"Processing time: {result.processing_time_ms} ms")
 
 for dish in result.dishes:
     en = dish.en
-    print(f"\n🍴 {en.dish_name}")
+    print(f"\n {en.dish_name}")
     print(f"   Ingredients:  {', '.join(en.ingredients)}")
     print(f"   Dietary:      {', '.join(en.dietary_flags)}")
     print(f"   Allergens:    {', '.join(en.allergen_warnings)}")
-    print(f"   Spice:        {'🌶️' * en.spice_level or 'mild'}")
+    print(f"   Spice:        {'' * en.spice_level or 'mild'}")
     print(f"   Prep time:    {en.estimated_prep_minutes} min")
     if en.nutrition:
         n = en.nutrition
@@ -87,10 +105,10 @@ for dish in result.dishes:
         print(f"   Wine pairing: {', '.join(en.wine_pairing)}")
 
     # Access any locale
-    print(f"   🇫🇷 {dish.fr.dish_name}")
-    print(f"   🇯🇵 {dish.ja.dish_name}")
-    print(f"   🇸🇦 {dish.ar.dish_name}")
-    print(f"   🇨🇳 {dish.zh_CN.dish_name}")
+    print(f"    {dish.fr.dish_name}")
+    print(f"    {dish.ja.dish_name}")
+    print(f"    {dish.ar.dish_name}")
+    print(f"    {dish.zh_CN.dish_name}")
 ```
 
 ### Sample output
@@ -155,7 +173,7 @@ with open("menu.png", "rb") as f:
 
 ---
 
-## 📐 Data Models
+## Data Models
 
 ```
 MenuAnalysisResult
@@ -184,80 +202,80 @@ DishAnalysis
 
 ---
 
-## 🌍 Supported Locales (64)
+## Supported Locales (64)
 
 | Code | Language | Native | Flag |
 |------|----------|--------|------|
-| en | English | English | 🇬🇧 |
-| it | Italian | Italiano | 🇮🇹 |
-| fr | French | Français | 🇫🇷 |
-| es | Spanish | Español | 🇪🇸 |
-| de | German | Deutsch | 🇩🇪 |
-| pt | Portuguese | Português | 🇵🇹 |
-| nl | Dutch | Nederlands | 🇳🇱 |
-| sv | Swedish | Svenska | 🇸🇪 |
-| no | Norwegian | Norsk | 🇳🇴 |
-| da | Danish | Dansk | 🇩🇰 |
-| fi | Finnish | Suomi | 🇫🇮 |
-| pl | Polish | Polski | 🇵🇱 |
-| cs | Czech | Čeština | 🇨🇿 |
-| ro | Romanian | Română | 🇷🇴 |
-| hu | Hungarian | Magyar | 🇭🇺 |
-| el | Greek | Ελληνικά | 🇬🇷 |
-| ru | Russian | Русский | 🇷🇺 |
-| he | Hebrew | עברית | 🇮🇱 |
-| ar | Arabic | العربية | 🇸🇦 |
-| tr | Turkish | Türkçe | 🇹🇷 |
-| fa | Persian | فارسی | 🇮🇷 |
-| ku | Kurdish | Kurdî | 🏳️ |
-| ps | Pashto | پښتو | 🇦🇫 |
-| tg | Tajik | Тоҷикӣ | 🇹🇯 |
-| zh-CN | Chinese (Simplified) | 中文（简体） | 🇨🇳 |
-| zh-TW | Chinese (Traditional) | 中文（繁體） | 🇹🇼 |
-| ja | Japanese | 日本語 | 🇯🇵 |
-| ko | Korean | 한국어 | 🇰🇷 |
-| hi | Hindi | हिन्दी | 🇮🇳 |
-| ur | Urdu | اردو | 🇵🇰 |
-| bn | Bengali | বাংলা | 🇧🇩 |
-| ta | Tamil | தமிழ் | 🇮🇳 |
-| te | Telugu | తెలుగు | 🇮🇳 |
-| mr | Marathi | मराठी | 🇮🇳 |
-| gu | Gujarati | ગુજરાતી | 🇮🇳 |
-| kn | Kannada | ಕನ್ನಡ | 🇮🇳 |
-| ml | Malayalam | മലയാളം | 🇮🇳 |
-| pa | Punjabi | ਪੰਜਾਬੀ | 🇮🇳 |
-| ne | Nepali | नेपाली | 🇳🇵 |
-| si | Sinhala | සිංහල | 🇱🇰 |
-| th | Thai | ภาษาไทย | 🇹🇭 |
-| vi | Vietnamese | Tiếng Việt | 🇻🇳 |
-| id | Indonesian | Bahasa Indonesia | 🇮🇩 |
-| ms | Malay | Bahasa Melayu | 🇲🇾 |
-| tl | Filipino | Filipino | 🇵🇭 |
-| my | Burmese | မြန်မာဘာသာ | 🇲🇲 |
-| km | Khmer | ភាសាខ្មែរ | 🇰🇭 |
-| lo | Lao | ພາສາລາວ | 🇱🇦 |
-| sw | Swahili | Kiswahili | 🇰🇪 |
-| am | Amharic | አማርኛ | 🇪🇹 |
-| om | Oromo | Afaan Oromoo | 🇪🇹 |
-| ha | Hausa | Hausa | 🇳🇬 |
-| yo | Yoruba | Yorùbá | 🇳🇬 |
-| ig | Igbo | Igbo | 🇳🇬 |
-| zu | Zulu | isiZulu | 🇿🇦 |
-| af | Afrikaans | Afrikaans | 🇿🇦 |
-| st | Sesotho | Sesotho | 🇿🇦 |
-| tn | Setswana | Setswana | 🇿🇦 |
-| ts | Tsonga | Xitsonga | 🇿🇦 |
-| ve | Venda | Tshivenḓa | 🇿🇦 |
-| xh | Xhosa | isiXhosa | 🇿🇦 |
-| nso | Northern Sotho | Sesotho sa Leboa | 🇿🇦 |
-| ss | Swati | siSwati | 🇸🇿 |
-| ber | Berber (Tamazight) | ⵜⴰⵎⴰⵣⵉⵖⵜ | 🇲🇦 |
+| en | English | English |  |
+| it | Italian | Italiano |  |
+| fr | French | Français |  |
+| es | Spanish | Español |  |
+| de | German | Deutsch |  |
+| pt | Portuguese | Português |  |
+| nl | Dutch | Nederlands |  |
+| sv | Swedish | Svenska |  |
+| no | Norwegian | Norsk |  |
+| da | Danish | Dansk |  |
+| fi | Finnish | Suomi |  |
+| pl | Polish | Polski |  |
+| cs | Czech | Čeština |  |
+| ro | Romanian | Română |  |
+| hu | Hungarian | Magyar |  |
+| el | Greek | Ελληνικά |  |
+| ru | Russian | Русский |  |
+| he | Hebrew | עברית |  |
+| ar | Arabic | العربية |  |
+| tr | Turkish | Türkçe |  |
+| fa | Persian | فارسی |  |
+| ku | Kurdish | Kurdî |  |
+| ps | Pashto | پښتو |  |
+| tg | Tajik | Тоҷикӣ |  |
+| zh-CN | Chinese (Simplified) | 中文（简体） |  |
+| zh-TW | Chinese (Traditional) | 中文（繁體） |  |
+| ja | Japanese | 日本語 |  |
+| ko | Korean | 한국어 |  |
+| hi | Hindi | हिन्दी |  |
+| ur | Urdu | اردو |  |
+| bn | Bengali | বাংলা |  |
+| ta | Tamil | தமிழ் |  |
+| te | Telugu | తెలుగు |  |
+| mr | Marathi | मराठी |  |
+| gu | Gujarati | ગુજરાતી |  |
+| kn | Kannada | ಕನ್ನಡ |  |
+| ml | Malayalam | മലയാളം |  |
+| pa | Punjabi | ਪੰਜਾਬੀ |  |
+| ne | Nepali | नेपाली |  |
+| si | Sinhala | සිංහල |  |
+| th | Thai | ภาษาไทย |  |
+| vi | Vietnamese | Tiếng Việt |  |
+| id | Indonesian | Bahasa Indonesia |  |
+| ms | Malay | Bahasa Melayu |  |
+| tl | Filipino | Filipino |  |
+| my | Burmese | မြန်မာဘာသာ |  |
+| km | Khmer | ភាសាខ្មែរ |  |
+| lo | Lao | ພາສາລາວ |  |
+| sw | Swahili | Kiswahili |  |
+| am | Amharic | አማርኛ |  |
+| om | Oromo | Afaan Oromoo |  |
+| ha | Hausa | Hausa |  |
+| yo | Yoruba | Yorùbá |  |
+| ig | Igbo | Igbo |  |
+| zu | Zulu | isiZulu |  |
+| af | Afrikaans | Afrikaans |  |
+| st | Sesotho | Sesotho |  |
+| tn | Setswana | Setswana |  |
+| ts | Tsonga | Xitsonga |  |
+| ve | Venda | Tshivenḓa |  |
+| xh | Xhosa | isiXhosa |  |
+| nso | Northern Sotho | Sesotho sa Leboa |  |
+| ss | Swati | siSwati |  |
+| ber | Berber (Tamazight) | ⵜⴰⵎⴰⵣⵉⵖⵜ |  |
 
 ---
 
-## 🏗️ Use Cases
+## Use Cases
 
-### 🏪 QR Code Menus
+### QR Code Menus
 Replace static PDFs with a live, multilingual digital menu. Scan once, serve in any language.
 
 ```python
@@ -265,16 +283,16 @@ result = analyzer.analyze_sync("menu_photo.jpg")
 # Store result.model_dump() in your DB — instant multilingual menu
 ```
 
-### 🛵 Food Delivery Apps
+### Food Delivery Apps
 Automatically localize menus from partner restaurants without manual translation work.
 
-### 🖥️ POS Systems
+### POS Systems
 Ingest paper menus during onboarding and generate structured item data for your POS catalog.
 
-### 🗺️ Google Maps / Review Platforms
+### Google Maps / Review Platforms
 Enrich location data with structured dish info, dietary filters, and allergen warnings.
 
-### 📱 iOS / Android Integration
+### iOS / Android Integration
 
 ```swift
 // iOS — POST base64 image to your backend, return JSON
@@ -282,12 +300,12 @@ let result = try await menuService.analyze(imageData: menuPhoto.jpegData)
 let dishInCurrentLocale = result.dishes[0][currentLanguageCode]
 ```
 
-### 🏨 Hotel / Hospitality
+### Hotel / Hospitality
 Provide guests with menus in their native language automatically based on passport locale.
 
 ---
 
-## 💰 Pricing
+## Pricing
 
 This SDK uses your own OpenAI API key — **no subscription required**.
 
@@ -301,7 +319,7 @@ Costs are based on GPT-4o image + token pricing. The 64-language output drives t
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 ```python
 # Custom model (any OpenAI vision model)
@@ -314,7 +332,7 @@ for locale in analyzer.supported_locales():
 
 ---
 
-## 🤝 Integration Guide
+## Integration Guide
 
 ### For Restaurants
 
@@ -354,7 +372,7 @@ pos_items = [
 
 ---
 
-## 🛠️ Development
+## Development
 
 ```bash
 pip install -e ".[dev]"
@@ -365,6 +383,6 @@ pytest tests/
 
 ---
 
-## 📄 License
+## License
 
 MIT — free for commercial use.
